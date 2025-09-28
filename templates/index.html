@@ -1,0 +1,146 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Buscador Inteligente</title>
+  <style>
+    body {
+      font-family: Arial, Helvetica, sans-serif;
+      background: #f4f7f9;
+      margin: 0;
+      padding: 0;
+      color: #333;
+    }
+
+    h2 {
+      margin: 0;
+      padding: 20px;
+      background: linear-gradient(90deg, #0099ff, #00cc99);
+      color: white;
+      text-align: center;
+      font-size: 1.8rem;
+      letter-spacing: 1px;
+    }
+
+    .container {
+      max-width: 450px;
+      margin: 60px auto;
+      padding: 25px 30px;
+      background: #fff;
+      border-radius: 12px;
+      box-shadow: 0 6px 20px rgba(0,0,0,0.1);
+    }
+
+    .container h3 {
+      text-align: center;
+      margin-bottom: 20px;
+      color: #444;
+    }
+
+    label {
+      font-weight: bold;
+      display: block;
+      margin-top: 15px;
+      margin-bottom: 6px;
+      font-size: 0.95rem;
+    }
+
+    textarea, input[type="file"] {
+      width: 100%;
+      padding: 10px;
+      border: 1px solid #ccc;
+      border-radius: 6px;
+      font-size: 0.95rem;
+      resize: none;
+    }
+
+    textarea:focus, input[type="file"]:focus {
+      border-color: #0099ff;
+      outline: none;
+      box-shadow: 0 0 4px rgba(0,153,255,0.5);
+    }
+
+    button {
+      margin-top: 20px;
+      width: 100%;
+      padding: 12px;
+      border: none;
+      border-radius: 8px;
+      background: linear-gradient(90deg, #0099ff, #00cc99);
+      color: white;
+      font-size: 1rem;
+      font-weight: bold;
+      cursor: pointer;
+      transition: 0.3s;
+    }
+
+    button:hover {
+      background: linear-gradient(90deg, #007acc, #00a37a);
+    }
+
+    .respuesta {
+      max-width: 80%;
+      margin: 30px auto;
+      padding: 20px;
+      background: #f9f9f9;
+      border-left: 6px solid #0099ff;
+      border-radius: 8px;
+      white-space: pre-wrap;
+      font-size: 0.95rem;
+      line-height: 1.5;
+    }
+
+    .error {
+      max-width: 80%;
+      margin: 20px auto;
+      color: #b30000;
+      font-weight: bold;
+      padding: 10px;
+      border-left: 6px solid #b30000;
+      background: #ffe6e6;
+      border-radius: 8px;
+    }
+  </style>
+</head>
+<body>
+  <h2>Buscador Inteligente</h2>
+<!-- Formulario -->
+  <div class="container">
+    <h3>Formulario</h3>
+    <form action="/info_formulario" method="post" enctype="multipart/form-data">
+      <label for="prompt">Defina en una frase lo que quiera buscar:</label>
+      <textarea id="prompt" name="user_message" rows="5"></textarea>
+
+      <label for="fichero">Ingrese su fichero (.txt o .pdf):</label>
+      <input type="file" id="fichero" name="archivo" accept=".txt, .pdf">
+
+      <button type="submit">Enviar consulta</button>
+    </form>
+  </div>
+
+  <!-- Mostrar respuesta -->
+  {% if mensaje %}
+    <div id="respuesta" class="respuesta">
+      <h4>Respuesta LLM:</h4>
+      {{ mensaje|safe }}
+    </div>
+  {% endif %}
+
+  {% if error %}
+    <div class="error">
+      ⚠️ {{ info }}
+    </div>
+  {% endif %}
+
+  <script>
+    // Si existe el contenedor de la respuesta, que haga scroll
+    window.onload = function() {
+      const respuesta = document.getElementById("respuesta");
+      if (respuesta) {
+        respuesta.scrollIntoView({ behavior: "smooth" });
+      }
+    };
+  </script>
+</body>
+</html>
