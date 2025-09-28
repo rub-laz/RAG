@@ -8,7 +8,7 @@ class API:
         self.contexto = contexto
         self.api_url = "https://openrouter.ai/api/v1/chat/completions"
         self.api_key = (
-            "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"
+            "api-key"
         )
         self.headers = {
             "Authorization": f"Bearer {self.api_key}",
