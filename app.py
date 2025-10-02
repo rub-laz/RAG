@@ -45,7 +45,7 @@ def buscador():
             lector = PdfReader(fichero)
             numero_de_paginas = len(lector.pages)
 
-            # 7. Itera sobre cada página y extrae el texto
+            # Itera sobre cada página y extrae el texto
             texto_completo = ""
             for numero_pagina in range(numero_de_paginas):
                 pagina = lector.pages[numero_pagina]
@@ -55,7 +55,7 @@ def buscador():
                 if texto_pagina:
                     texto_completo += texto_pagina + "\n"
 
-            # 8. Imprime el texto extraído de todo el PDF
+            # Imprime el texto extraído de todo el PDF
             chunk_builder = ChunkBuilder(texto_completo, prompt)
             contexto = chunk_builder.top_chunks()
 
