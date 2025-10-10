@@ -3,7 +3,7 @@ import torch
 
 
 class ChunkBuilder:
-    def __init__(self, contenido_fichero, prompt):
+    def __init__(self, contenido_fichero, prompt=None):
         self.contenido_fichero = contenido_fichero
         self.prompt = prompt
         self.chunk_size = 200
@@ -29,7 +29,8 @@ class ChunkBuilder:
 
     def embeddings(self):
         """
-        Función que se encarga de hacer los embeddings de los chunks y del prompt"""
+        Función que se encarga de hacer los embeddings de los chunks y del prompt
+        """
         chunks = self.make_chunks()
         chunks_embeddings = []
         # Embeddings de los chunks
@@ -44,7 +45,7 @@ class ChunkBuilder:
 
     def top_chunks(self):
         """
-        Función que se encarga de encontrar los chunks que más se parecen al prompt y juntarlos para que chatGPT busque la respuesta
+        Función que se encarga de encontrar los chunks que más se parecen al prompt y juntarlos para que chatGPT busque la respuesta.
         """
         chunks_embeddings, prompt_embedding, chunks = self.embeddings()
         x = self.modelo.similarity(prompt_embedding, chunks_embeddings)[0]
@@ -59,3 +60,17 @@ class ChunkBuilder:
         contexto = "\n\n".join([chunks[c] for c in top_indices])
 
         return contexto
+
+    def chunks_resumen(self, chunk_size=10000, overlap=500):
+        """
+        Función que realiza chunks a un fichero en el caso de que su corpus sea demasiado extenso.
+        """
+
+        palabras = self.contenido_fichero.split()
+        chunks = []
+        i = 0
+        while i < len(palabras):
+            chunk = palabras[i : i + chunk_size]
+            chunks.append(" ".join(chunk))
+            i += chunk_size - overlap
+        return chunks
