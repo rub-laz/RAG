@@ -49,7 +49,7 @@ La nueva funcionalidad permite **resumir textos extensos** (en `.txt` o `.pdf`),
 
 El proceso es el siguiente:
 
-1. Se divide el documento en **chunks grandes** (p. ej., 10 000 palabras con solapamiento).  
+1. Se divide el documento en **chunks grandes** (10 000 palabras con solapamiento).  
 2. Cada chunk se resume individualmente mediante el modelo de lenguaje.  
 3. Los resúmenes parciales se combinan y se realiza un **meta-resumen global** que sintetiza toda la información manteniendo coherencia y eliminando redundancias.
 
